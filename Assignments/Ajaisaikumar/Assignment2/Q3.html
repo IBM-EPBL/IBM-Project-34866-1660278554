@@ -1,0 +1,38 @@
+<html>
+<style>
+    body {
+        margin: 100px;
+        font-size: 16px;
+        line-height: 1.8em;
+        background-color: beige;
+        background-size: cover;
+        background-position: fixed;
+        font-weight: bold;
+        text-align: center;
+
+    }
+
+    form {
+        background-color: white;
+        padding: 35px;
+        width: 20vw;
+        margin-left: 32vw;
+
+    }
+</style>
+
+<head>
+    <title>
+        Assignment2-3
+    </title>
+</head>
+
+<body>
+    <h1> UPLOAD YOUR RESUME HERE</h1>
+    <form action="http://127.0.0.1:5000" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" />
+        <input type="submit" value="Upload">
+    </form>
+</body>
+
+</html>
