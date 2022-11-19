@@ -1,23 +1,33 @@
-import os
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import *
+
+from mailjet_rest import Client
+from flask import current_app, g
 
 
-def send_email():
-    from_email = Email('praveengowtham.pg@gmail.com')
-    to_email = To('mohamedriyazafzal@gmail.com')
-    subject = 'Sending with SendGrid is Fun'
-    content = Content("text/plain", "and easy to do anywhere, even with Python")
-    mail = Mail(from_email, to_email, subject, content)
+def send_email_alert():
 
-    try:
-        sg = SendGridAPIClient('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')
-        response = sg.send(mail)
-        print(response.status_code)
-        print(response.body)
-        print(response.headers)
-    except Exception as e:
-        print(e)
-
-
-send_email()
+    mail_api_key = "21c0ad8bf9d858b7254a01283e29d097"
+    mail_api_secret = "90a702edf91a1d6832ca6bd0475c3b4b"
+    mail_admin = "ajaisaikumar@student.tce.edu"
+    mailjet = Client(auth=(mail_api_key, mail_api_secret), version='v3.1')
+    name = g.user["NAME"]
+    email = g.user["EMAIL"]
+    data = {
+        'Messages': [
+            {
+                "From": {
+                    "Email": mail_admin,
+                    "Name": "Admin"
+                },
+                "To": [
+                    {
+                        "Email": email,
+                        "Name": name
+                    }
+                ],
+                "Subject": "Expense Alert",
+                "HTMLPart": f"<h3>Dear {name},<br/> your expenses have crossed the monthly expense limit set by you.",
+            }
+        ]
+    }
+    result = mailjet.send.create(data=data)
+    print(result)
